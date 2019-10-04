@@ -17,7 +17,7 @@ $ cd appshore
 
 Retrieve the git
 ```
-$ git pull https://github.com/appshore/v23.git
+$ git pull https://github.com/appshore/v23Japan.git
 ```
 
  In the project's directory, run the following commands in 3 different terminals:
