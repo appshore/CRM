@@ -1,0 +1,104 @@
+<?xml version = '1.0' encoding = 'utf-8' standalone = 'no'?>
+<!DOCTYPE REPORT SYSTEM "PHPReport.dtd">
+<REPORT MARGINWIDTH="5" MARGINHEIGHT="5" >
+  <BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+  <CSS>reports/css/reportS1.css</CSS>
+  <SQL>SELECT 
+  concat(S.first_names,' ',S.last_name)  C1   ,
+ A.account_name C2,  
+ R.status_name C3,
+ T.rating_name C4,
+ U.source_name C5,
+ A.city_1 C6,
+ A.state_1 C7,
+ A.note C8,
+ A.updated C9,
+ A.revenue*1 C10
+        FROM `leads` A
+LEFT OUTER JOIN users B ON B.user_id=A.user_id
+LEFT OUTER JOIN users S ON S.user_id=A.user_id
+LEFT OUTER JOIN statuses R on R.status_id=A.status_id
+LEFT OUTER JOIN ratings T on T.rating_id=A.status_id
+LEFT OUTER JOIN sources U on U.source_id=A.source_id</SQL>
+  <INTERFACE>mysql</INTERFACE>
+  <CONNECTION>localhost</CONNECTION>
+  <DATABASE>demo</DATABASE>
+  <NO_DATA_MSG>No data was found, check your query</NO_DATA_MSG>
+  <TITLE> Leads report</TITLE>
+  <BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+  <DOCUMENT>
+	<HEADER>
+		<ROW>
+			<COL COLSPAN="1" >
+				<XHTML>
+					<a><IMG SRC="api/images/print.gif" onclick="javascript:this.src='api/images/invisible.gif';print();"/></a>
+				</XHTML>
+			</COL>
+		</ROW>
+	</HEADER>
+  </DOCUMENT>
+  <PAGE SIZE="1000" CELLSPACING="0" CELLPADDING="0" >
+    <HEADER>
+	<ROW>
+		<COL ALIGN="center" TEXTCLASS="BOLD" CELLCLASS="HEADER1" TYPE="EXPRESSION" colspan="7">"Thermal Solutions Leads"</COL>
+    </ROW>
+      <ROW>
+        <COL ALIGN="center" TEXTCLASS="BOLD" CELLCLASS="HEADER1UL" TYPE="EXPRESSION" colspan="7" >$this->getParameter(&quot;users_scope&quot;)</COL>
+      </ROW>
+      <ROW>
+        <COL ALIGN="center" TEXTCLASS="BOLD" CELLCLASS="HEADER1UL" TYPE="EXPRESSION" colspan="7" >$this->getParameter(&quot;range_date&quot;)</COL>
+      </ROW>
+      <ROW>
+        <COL CELLCLASS="HEADERFIELDS" >Owner</COL>
+        <COL CELLCLASS="HEADERFIELDS" >Account</COL>
+        <COL CELLCLASS="HEADERFIELDS" >City</COL>
+		<COL CELLCLASS="HEADERFIELDS" >State</COL>
+        <COL CELLCLASS="HEADERFIELDS" >Note</COL>
+		<COL CELLCLASS="HEADERFIELDS" >Date Last Updated</COL>
+      </ROW>
+    </HEADER>
+    <FOOTER/>
+  </PAGE>
+  <GROUPS>
+    <GROUP EXPRESSION="C1" NAME="C1" >
+      <HEADER>
+        <ROW>
+          <COL CELLCLASS="HEADER3" TYPE="EXPRESSION" COLSPAN="1" >$this->getValue(&quot;C1&quot;)</COL>
+        </ROW>
+      </HEADER>
+      <GROUP EXPRESSION="C3" NAME="C3" >
+        <HEADER>
+          <ROW>
+            <COL CELLCLASS="HEADER4" />
+            <COL CELLCLASS="HEADER4" TYPE="EXPRESSION" COLSPAN="3" >"Type: ".$this->getValue(&quot;C3&quot;)</COL>
+          </ROW>
+        </HEADER>
+        <FIELDS>
+          <ROW>
+            <COL CELLCLASSODD="ODD" SUPPRESS="TRUE" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" />
+            <COL CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C2</COL>
+            <COL CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C6</COL>
+            <COL CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C7</COL>
+			<COL CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C8</COL>
+			<COL CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C9</COL>
+          </ROW>
+        </FIELDS>
+        <FOOTER>
+          <ROW>
+            <COL/>
+            <COL/>
+            <!--<COL ALIGN="LEFT" CELLCLASS="FOOTER" >Forecasted Amount:</COL>
+            <COL ALIGN="LEFT" NUMBERFORMATEX="2" CELLCLASS="FOOTER" TYPE="EXPRESSION" >$this->getSum(C7)</COL>-->
+          </ROW>
+          <ROW>
+            <COL>
+              <XHTML>
+                <br/>
+              </XHTML>
+            </COL>
+          </ROW>
+        </FOOTER>
+      </GROUP>
+    </GROUP>
+  </GROUPS>
+</REPORT>

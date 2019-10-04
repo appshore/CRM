@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE REPORT SYSTEM "PHPReport.dtd">
+<REPORT MARGINWIDTH="5" MARGINHEIGHT="5">
+
+	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<CSS>reports/css/reportS1.css</CSS><SQL> 
+		SELECT A.subject C0,
+		B.user_name CB,
+		D.status_name CD,
+		A.activity_start C2,
+		A.activity_end C3,
+		
+		A.updated C5,
+		C.user_name CC,
+		E.priority_name CE 
+			FROM activities A 
+		LEFT OUTER JOIN users B on A.user_id =B.user_id 
+		LEFT OUTER JOIN users C on A.updated_by =C.user_id 
+		LEFT OUTER JOIN activities_statuses D on A.status =D.status_id 
+		LEFT OUTER JOIN activities_priorities E on A.priority=E.priority_id WHERE month(A.updated) = month(current_date()) AND year(A.updated) = year(current_date()) AND A.user_id='admin' order by CB,CD limit 0,1000
+	</SQL>
+	<INTERFACE>mysql</INTERFACE>
+	<CONNECTION>localhost</CONNECTION>
+	<DATABASE>demo</DATABASE>
+	<NO_DATA_MSG>No data was found, check your query</NO_DATA_MSG>
+	<DOCUMENT>
+	<HEADER>
+		<ROW>
+			<COL COLSPAN="1" >
+				<XHTML>
+					<a><IMG SRC="api/images/print.gif" onclick="javascript:this.src='api/images/invisible.gif';print();"/></a>
+				</XHTML>
+			</COL>
+		</ROW>
+	</HEADER>
+	</DOCUMENT>
+	<TITLE>Accounts</TITLE>
+   	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>  	
+	<PAGE CELLSPACING="0" CELLPADDING="0"  SIZE="1000">		
+	<HEADER>
+			<!--<ROW>
+				<COL COLSPAN="1"  TEXTCLASS="LOGO">
+					<IMG>lib/logo.php</IMG>
+				</COL>				
+				<COL  CELLCLASS="HEADER" COLSPAN="1" >
+					<XHTML>
+					<a><IMG SRC="api/images/print.png" onclick="javascript:printWindow()"/></a>
+					</XHTML>
+				</COL>
+				<COL  CELLCLASS="HEADER" COLSPAN="10" >My activities by status</COL>
+			</ROW>-->
+			<ROW>
+				<COL></COL>
+				<COL></COL>
+				<COL ALIGN="center" TYPE="EXPRESSION" CELLCLASS="HEADER1" TEXTCLASS="BOLD" colspan="2" >$this->getParameter("range_date")</COL>
+			</ROW>
+		</HEADER>
+		<FOOTER>
+		</FOOTER>
+	</PAGE>
+	<GROUPS>
+			<GROUP NAME="CD" EXPRESSION="CD" >
+				<HEADER>
+
+					<ROW>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER3" WIDTH="50">Status:</COL>
+						<COL TYPE="EXPRESSION" CELLCLASS="HEADER3" TEXTCLASS="BOLD" COLSPAN="1">$this->getValue("CD")</COL>
+					</ROW>
+					<ROW>
+						<COL CELLCLASS="HEADERFIELDS">Subject</COL>		
+						<COL CELLCLASS="HEADERFIELDS">Start</COL>		
+						<COL CELLCLASS="HEADERFIELDS">End</COL>		
+						<!--<COL CELLCLASS="HEADERFIELDS">Duration</COL>-->
+						<COL CELLCLASS="HEADERFIELDS">Priority</COL>		
+						<COL CELLCLASS="HEADERFIELDS">Last Update</COL>		
+						<COL CELLCLASS="HEADERFIELDS">Last Update by</COL>		
+					</ROW>
+				</HEADER>
+				<FOOTER>
+					<ROW>
+						
+						<COL TYPE="EXPRESSION" CELLCLASS="FOOTER" TEXTCLASS="BOLD" ALIGN="RIGHT"  COLSPAN="1">"Number of activities in status ".$this->getValue("CD")." : ".$this->getRowCount("CD")</COL>
+					</ROW>
+					<ROW>
+						<COL><XHTML><br/></XHTML></COL>
+					</ROW>
+				</FOOTER>
+				<FIELDS>
+					<ROW>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >C0</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >C2</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >C3</COL>
+<!--						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >C4</COL>-->
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >CE</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >C5</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >CC</COL>
+					</ROW>
+				</FIELDS>
+			</GROUP>
+
+	</GROUPS>
+</REPORT>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE REPORT SYSTEM "PHPReport.dtd">
+<REPORT MARGINWIDTH="5" MARGINHEIGHT="5">
+
+	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<CSS>reports/css/reportS1.css</CSS>
+	<SQL></SQL>
+	<INTERFACE>mysql</INTERFACE>
+	<CONNECTION>localhost</CONNECTION>
+	<DATABASE>demo</DATABASE>
+	<NO_DATA_MSG>No data was found, check your query</NO_DATA_MSG>
+	<DOCUMENT>
+	<HEADER>
+		<ROW>
+			<COL COLSPAN="1" >
+				<XHTML>
+					<a><IMG SRC="api/images/print.gif" onclick="javascript:this.src='api/images/invisible.gif';print();"/></a>
+				</XHTML>
+			</COL>
+		</ROW>
+	</HEADER>
+	</DOCUMENT>
+	<TITLE>Activities</TITLE>
+   	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>  	
+	<PAGE CELLSPACING="0" CELLPADDING="0"  SIZE="1000">		
+		<HEADER>
+			<ROW>
+				<COL ALIGN="center" TYPE="EXPRESSION" CELLCLASS="HEADER1" TEXTCLASS="BOLD" colspan="7" >$this->getParameter("range_date")</COL>
+			</ROW>
+		</HEADER>
+	</PAGE>
+	<GROUPS>
+			<GROUP NAME="start_date" EXPRESSION="start_date" >
+				<HEADER>
+					<ROW>
+						<COL ALIGN="left" TEXTCLASS="BOLD" CELLCLASS="HEADER2" TYPE="FIELD" COLSPAN="5">start_date</COL>
+					</ROW>
+					<ROW>
+						<COL CELLCLASS="HEADERFIELDS" WIDTH="12%">Account</COL>		
+						<COL CELLCLASS="HEADERFIELDS" WIDTH="20%">Contact</COL>		
+						<COL CELLCLASS="HEADERFIELDS" WIDTH="8%">Type</COL>		
+						<COL CELLCLASS="HEADERFIELDS" WIDTH="25%">Subject</COL>		
+						<COL CELLCLASS="HEADERFIELDS">Note</COL>		
+					</ROW>
+				</HEADER>
+				<FOOTER>
+					<ROW>
+						<COL><XHTML><br/></XHTML></COL>
+					</ROW>
+				</FOOTER>
+				<FIELDS>
+					<ROW>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS">account_name</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >full_name</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >type_name</COL>
+						<COL TYPE="EXPRESSION" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >preg_replace('/[^(\x20-\x7F)]*/','', $this->getValue("subject"))</COL>
+						<COL TYPE="EXPRESSION" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >preg_replace('/[^(\x20-\x7F)]*/','', $this->getValue("note"))</COL>
+					</ROW>
+				</FIELDS>
+			</GROUP>
+	</GROUPS>
+</REPORT>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE REPORT SYSTEM "PHPReport.dtd">
+<REPORT MARGINWIDTH="5" MARGINHEIGHT="5">
+
+	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<CSS>reports/css/reportS1.css</CSS>	
+	<SQL>
+	SELECT quarter(closing) QU, stage_name C1, opportunity_name C4, expected_amount C2, A.stage_id C3
+	from opportunities A,stages B
+	where A.stage_id=B.stage_id
+	and A.user_id=1
+	order by QU asc, C3</SQL>
+	<INTERFACE>mysql</INTERFACE>
+	<CONNECTION>localhost</CONNECTION>
+	<DATABASE>demo</DATABASE>
+	<NO_DATA_MSG>No data was found, check your query</NO_DATA_MSG>
+	
+	<TITLE>My pipeline</TITLE>
+   	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<DOCUMENT>
+	<HEADER>
+		<ROW>
+			<COL COLSPAN="1" >
+				<XHTML>
+					<a><IMG SRC="api/images/print.gif" onclick="javascript:this.src='api/images/invisible.gif';print();"/></a>
+				</XHTML>
+			</COL>
+		</ROW>
+	</HEADER>
+	</DOCUMENT>
+	<PAGE CELLSPACING="0" CELLPADDING="0" WIDTH="600" SIZE="1000">
+		<HEADER>
+			<!--<ROW>
+				<COL COLSPAN="1"  TEXTCLASS="LOGO">
+					<IMG>lib/logo.php</IMG>
+				</COL>
+				<COL  CELLCLASS="HEADER" COLSPAN="1" ALIGN="LEFT" >
+					<XHTML>
+					<a><IMG SRC="api/images/print.png" onclick="javascript:printWindow()"/></a>
+					</XHTML>
+				</COL>
+				<COL  CELLCLASS="HEADER" COLSPAN="4" ALIGN="LEFT" >My expected revenues by quarter</COL>
+			</ROW>-->
+			<ROW>
+				<COL ALIGN="center" TYPE="EXPRESSION" CELLCLASS="HEADER1UL" TEXTCLASS="BOLD" colspan="17" >$this->getParameter("range_date")</COL>
+			</ROW>
+			<ROW>
+				<COL CELLCLASS="HEADERFIELDS">Quarter</COL>
+				<COL CELLCLASS="HEADERFIELDS">Stage</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Opportunity </COL>
+				<COL  ALIGN="RIGHT" CELLCLASS="HEADERFIELDS" >Expected amount</COL>
+			</ROW>
+		</HEADER>	
+		<FOOTER>
+
+         	<ROW>
+            		<COL ALIGN="LEFT" COLSPAN="3" CELLCLASS="FOOTER" >Totals</COL>
+			
+			<COL   ALIGN="RIGHT" COLSPAN="1" CELLCLASS="FOOTER" NUMBERFORMATEX="2" TYPE="EXPRESSION">$this->getSum("C2")</COL>
+
+         	</ROW>
+		<ROW>
+            		<COL ALIGN="LEFT" COLSPAN="3" CELLCLASS="FOOTER" >Averages</COL>
+			
+			<COL  ALIGN="RIGHT" COLSPAN="1" CELLCLASS="FOOTER" NUMBERFORMATEX="2" TYPE="EXPRESSION">$this->getAvg("C2")</COL>
+
+         	</ROW>
+      		</FOOTER>			
+	</PAGE>
+	
+	
+	<GROUPS>
+		<GROUP NAME="QUARTER" EXPRESSION="QU">
+
+		<FIELDS>
+			<ROW>
+				<COL COLSPAN="1" TYPE="EXPRESSION" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD">$this->getValue("QU")</COL>
+				<COL COLSPAN="1" TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD">C1</COL>
+				<COL COLSPAN="1" TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD">C4</COL>
+				<COL COLSPAN="1"  ALIGN="RIGHT" TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" NUMBERFORMATEX="2">C2</COL>
+
+			</ROW>
+		</FIELDS>
+
+		</GROUP>
+		
+	</GROUPS>
+</REPORT>

@@ -1,0 +1,143 @@
+<?xml version = '1.0' encoding = 'utf-8' standalone = 'no'?>
+<!DOCTYPE REPORT SYSTEM "PHPReport.dtd">
+<REPORT MARGINWIDTH="5" MARGINHEIGHT="5" >
+  <BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+  <CSS>reports/css/reportS1.css</CSS>
+  <SQL>SELECT 
+  concat(S.first_names,' ',S.last_name)  C1   ,
+  R.account_name C2,  
+  opportunity_name C3,
+  A.expected_amount C4,
+  A.probability C5,
+  W.stage_name C6,
+  concat( A.probability, '%' ) C7, 
+  A.expected_amount*A.probability/100 C8,
+  A.closing C9,
+  A.recurring_start_time C10,
+  B.user_name C11
+        FROM `opportunities` A
+LEFT OUTER JOIN accounts R on R.account_id=A.account_id
+LEFT OUTER JOIN users B ON A.user_id= B.user_id
+LEFT OUTER JOIN users S ON R.user_id=S.user_id
+LEFT OUTER JOIN stages W on W.stage_id=A.stage_id</SQL>
+  <INTERFACE>mysql</INTERFACE>
+  <CONNECTION>localhost</CONNECTION>
+  <DATABASE>demo</DATABASE>
+  <NO_DATA_MSG>No data was found, check your query</NO_DATA_MSG>
+  <TITLE> EandS Pipeline</TITLE>
+  <BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+<DOCUMENT>
+	<HEADER>
+		<ROW>
+			<COL COLSPAN="1" >
+				<XHTML>
+					<a><IMG SRC="api/images/print.gif" onclick="javascript:this.src='api/images/invisible.gif';print();"/></a>
+				</XHTML>
+			</COL>
+		</ROW>
+	</HEADER>
+    <FOOTER>
+      <ROW>
+        <COL CELLCLASS="HEADER4UL" COLSPAN="8" >
+          <XHTML>
+            <br/>
+          </XHTML>
+        </COL>
+      </ROW>
+      <ROW>
+        <COL ALIGN="LEFT" CELLCLASS="HEADER3" >Grand Total:</COL>
+        <COL ALIGN="LEFT" CELLCLASS="HEADER3" >Expected Amount:</COL>
+        <COL ALIGN="LEFT" NUMBERFORMATEX="2" CELLCLASS="HEADER3" TYPE="EXPRESSION" >$this->getSum(C4)</COL>
+        <COL ALIGN="LEFT" CELLCLASS="HEADER3" >Forecasted Amount:</COL>
+        <COL ALIGN="LEFT" NUMBERFORMATEX="2" CELLCLASS="HEADER3" TYPE="EXPRESSION" COLSPAN="4" >$this->getSum(C8)</COL>
+      </ROW>
+    </FOOTER>
+  </DOCUMENT>
+  <PAGE SIZE="1000" CELLSPACING="0" CELLPADDING="0" >
+    <HEADER>
+	<ROW>
+		<COL ALIGN="center" TEXTCLASS="BOLD" CELLCLASS="HEADER1" TYPE="EXPRESSION" colspan="8">"Thermal Solutions Pipeline"</COL>
+    </ROW>
+      <ROW>
+        <COL ALIGN="center" TEXTCLASS="BOLD" CELLCLASS="HEADER1UL" TYPE="EXPRESSION" colspan="8" >$this->getParameter(&quot;users_scope&quot;)</COL>
+      </ROW>
+      <ROW>
+        <COL ALIGN="center" TEXTCLASS="BOLD" CELLCLASS="HEADER1UL" TYPE="EXPRESSION" colspan="8" >$this->getParameter(&quot;range_date&quot;)</COL>
+      </ROW>
+      <ROW>
+        <COL CELLCLASS="HEADERFIELDS" >Owner</COL>
+        <COL CELLCLASS="HEADERFIELDS" >Account</COL>
+        <COL CELLCLASS="HEADERFIELDS" >Opportunity name</COL>
+        <COL CELLCLASS="HEADERFIELDS" >Stage</COL>
+        <COL CELLCLASS="HEADERFIELDS" >Closing</COL>
+        <COL CELLCLASS="HEADERFIELDS" >Start time</COL>
+        <COL CELLCLASS="HEADERFIELDS" >Expected Amount</COL>
+        <COL CELLCLASS="HEADERFIELDS" >Forecasted Amount</COL>
+      </ROW>
+    </HEADER>
+    <FOOTER/>
+  </PAGE>
+  <GROUPS>
+    <GROUP EXPRESSION="C1" NAME="C1" >
+      <HEADER>
+        <ROW>
+          <COL CELLCLASS="HEADER3" TYPE="EXPRESSION" COLSPAN="1" >$this->getValue(&quot;C1&quot;)</COL>
+        </ROW>
+      </HEADER>
+      <FOOTER>
+        <ROW>
+          <COL CELLCLASS="TOTAL" />
+          <COL ALIGN="LEFT" CELLCLASS="TOTAL" >Expected Amount:</COL>
+          <COL ALIGN="LEFT" NUMBERFORMATEX="2" CELLCLASS="TOTAL" TYPE="EXPRESSION" >$this->getSum(C4)</COL>
+          <COL ALIGN="LEFT" CELLCLASS="TOTAL" >Forecasted Amount:</COL>
+          <COL ALIGN="LEFT" NUMBERFORMATEX="2" CELLCLASS="TOTAL" TYPE="EXPRESSION" COLSPAN="4" >$this->getSum(C8)</COL>
+        </ROW>
+        <ROW>
+          <COL>
+            <XHTML>
+              <br/>
+            </XHTML>
+          </COL>
+        </ROW>
+      </FOOTER>
+      <GROUP EXPRESSION="C5" NAME="C5" >
+        <HEADER>
+          <ROW>
+            <COL CELLCLASS="HEADER4" />
+            <COL CELLCLASS="HEADER4" > Probability:</COL>
+            <COL CELLCLASS="HEADER4" TYPE="EXPRESSION" COLSPAN="3" >$this->getValue(&quot;C7&quot;)</COL>
+          </ROW>
+        </HEADER>
+        <FIELDS>
+          <ROW>
+            <COL CELLCLASSODD="ODD" SUPPRESS="TRUE" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" />
+            <COL CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C2</COL>
+            <COL CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C3</COL>
+            <COL CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C6</COL>
+            <COL CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C9</COL>
+            <COL CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C10</COL>
+            <COL ALIGN="RIGHT" NUMBERFORMATEX="2" CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C4</COL>
+            <COL ALIGN="RIGHT" NUMBERFORMATEX="2" CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" TYPE="FIELD" CELLCLASSEVEN="EVEN" >C8</COL>
+          </ROW>
+        </FIELDS>
+        <FOOTER>
+          <ROW>
+            <COL/>
+            <COL/>
+            <COL ALIGN="LEFT" CELLCLASS="FOOTER" >Expected Amount:</COL>
+            <COL ALIGN="LEFT" NUMBERFORMATEX="2" CELLCLASS="FOOTER" TYPE="EXPRESSION" >$this->getSum(C4)</COL>
+            <COL ALIGN="LEFT" CELLCLASS="FOOTER" >Forecasted Amount:</COL>
+            <COL ALIGN="LEFT" NUMBERFORMATEX="2" CELLCLASS="FOOTER" TYPE="EXPRESSION" >$this->getSum(C8)</COL>
+          </ROW>
+          <ROW>
+            <COL>
+              <XHTML>
+                <br/>
+              </XHTML>
+            </COL>
+          </ROW>
+        </FOOTER>
+      </GROUP>
+    </GROUP>
+  </GROUPS>
+</REPORT>

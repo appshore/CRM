@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE REPORT SYSTEM "PHPReport.dtd">
+<REPORT MARGINWIDTH="5" MARGINHEIGHT="5">
+
+	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<CSS>reports/css/reportS1.css</CSS><SQL> 
+	SELECT A.subject C0,B.user_name CB,A.status C1,A.activity_date C2,A.activity_time C3,A.duration C4,A.updated C5,C.user_name CC,A.priority C6 FROM activities A  
+		LEFT OUTER JOIN users B on A.user_id =B.user_id
+		 LEFT OUTER JOIN users C on A.updated_by =C.user_id 
+	 ORDER BY CB,C1 
+	</SQL>
+	<INTERFACE>mysql</INTERFACE>
+	<CONNECTION>localhost</CONNECTION>
+	<DATABASE>demo</DATABASE>
+	<NO_DATA_MSG>No data was found, check your query</NO_DATA_MSG>
+	
+	<TITLE>Accounts</TITLE>
+   	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<DOCUMENT>
+		<HEADER>
+			<ROW>
+				<COL COLSPAN="1" >
+					<XHTML>
+						<a><IMG SRC="api/images/print.gif" onclick="javascript:this.src='api/images/invisible.gif';print();"/></a>
+					</XHTML>
+				</COL>
+			</ROW>
+		</HEADER>
+	</DOCUMENT>
+	<PAGE CELLSPACING="0" CELLPADDING="0"  SIZE="1000">		
+	<HEADER>
+			<!--<ROW>
+				<COL COLSPAN="1"  TEXTCLASS="LOGO">
+					<IMG>api/images/appshorelogo.gif</IMG>
+				</COL>				
+				<COL  CELLCLASS="HEADER" COLSPAN="1" >
+					<XHTML>
+					<a><IMG SRC="api/images/print.png" onclick="javascript:printWindow()"/></a>
+					</XHTML>
+				</COL>
+				<COL  CELLCLASS="HEADER" COLSPAN="10" >All activities by rep/status</COL>
+			</ROW>-->
+		</HEADER>
+		<FOOTER>
+		</FOOTER>
+	</PAGE>
+	<GROUPS>
+		<GROUP NAME="CB" EXPRESSION="CB" >
+			<HEADER>
+				<ROW>
+					<COL ALIGN="LEFT" CELLCLASS="HEADER3" WIDTH="50">AssignedTo:</COL>
+					<COL TYPE="EXPRESSION" CELLCLASS="HEADER3" TEXTCLASS="BOLD" COLSPAN="1">$this->getValue("CB")</COL>
+					
+					<COL CELLCLASS="HEADERFIELDS">Subject</COL>		
+					<COL CELLCLASS="HEADERFIELDS">Date</COL>		
+					<COL CELLCLASS="HEADERFIELDS">Time</COL>		
+					<COL CELLCLASS="HEADERFIELDS">Duration</COL>
+					<COL CELLCLASS="HEADERFIELDS">Priority</COL>		
+					<COL CELLCLASS="HEADERFIELDS">Last Update</COL>		
+					<COL CELLCLASS="HEADERFIELDS">Last Update by</COL>		
+				</ROW>
+			</HEADER>
+			<FOOTER>
+				<ROW>
+					<COL></COL>
+					<COL TYPE="EXPRESSION" CELLCLASS="FOOTER" TEXTCLASS="BOLD" ALIGN="RIGHT"  COLSPAN="1">"count(AssignedTo=".$this->getValue("CB")."):".$this->getRowCount("CB")</COL>
+				</ROW>
+				<ROW>
+					<COL> </COL>
+				</ROW>
+			</FOOTER>
+			<GROUP NAME="C1" EXPRESSION="C1" >
+				<HEADER>
+					<ROW>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER3" WIDTH="50">Status:</COL>
+						<COL TYPE="EXPRESSION" CELLCLASS="HEADER3" TEXTCLASS="BOLD" COLSPAN="1">$this->getValue("C1")</COL>
+					</ROW>
+				</HEADER>
+				<FOOTER>
+					<ROW>
+						<COL></COL>
+						<COL ></COL>
+<!-- 						<COL TYPE="EXPRESSION" CELLCLASS="FOOTER" TEXTCLASS="BOLD" ALIGN="RIGHT"  COLSPAN="1">"count(Status):".$this->getRowCount("C1")</COL> -->
+					</ROW>
+				</FOOTER>
+				<FIELDS>
+					<ROW>
+						<COL  ></COL>
+						<COL ></COL>
+						
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >C0</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >C2</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >C3</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >C4</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >C6</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >C5</COL>
+						<COL TYPE="FIELD" CELLCLASSEVEN="EVEN"	CELLCLASSODD="ODD" CELLCLASS="HEADERFIELDS" >CC</COL>
+					</ROW>
+				</FIELDS>
+			</GROUP>
+		</GROUP>
+	</GROUPS>
+</REPORT>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE REPORT SYSTEM "PHPReport.dtd">
+<REPORT MARGINWIDTH="5" MARGINHEIGHT="5">
+
+	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<CSS>reports/css/reportS1.css</CSS>	
+	<SQL>SELECT
+		R.account_name C1,S.first_names C2, 
+		S.last_name C3, S.city_1 C4, 
+		opportunity_name,concat(T.first_names,' ',T.last_name) C5, 
+		R.note C6,concat(U.first_names,' ',U.last_name) C7, A.note C8,
+		V.subject C9,V.activity_date C10, W.stage_name C11,
+		concat( A.probability, '%' ) C12 
+		FROM `opportunities` A
+		LEFT OUTER JOIN users B ON A.user_id=B.user_id
+		LEFT OUTER JOIN accounts R on R.account_id=A.account_id
+		LEFT OUTER JOIN contacts S ON A.account_id= S.account_id
+		LEFT OUTER JOIN users T ON R.user_id=T.user_id
+		LEFT OUTER JOIN users U ON R.user_id=U.user_id
+		LEFT OUTER JOIN activities V ON V.related_app_id='opp' and V.related_record_id=A.opportunity_id
+		LEFT OUTER JOIN stages W on W.stage_id=A.stage_id 
+</SQL>
+	<INTERFACE>mysql</INTERFACE>
+	<CONNECTION>localhost</CONNECTION>
+	<DATABASE>demo</DATABASE>
+	<NO_DATA_MSG>No data was found, check your query</NO_DATA_MSG>
+	
+	<TITLE> Accounts and Activities of Opportunities</TITLE>
+   	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<DOCUMENT>
+	<HEADER>
+		<ROW>
+			<COL COLSPAN="1" >
+				<XHTML>
+					<a><IMG SRC="api/images/print.gif" onclick="javascript:this.src='api/images/invisible.gif';print();"/></a>
+				</XHTML>
+			</COL>
+		</ROW>
+	</HEADER>
+	</DOCUMENT>
+   	<PAGE CELLSPACING="0" CELLPADDING="0" SIZE="1000">
+		<HEADER>
+
+			<ROW>
+				<COL ALIGN="center" TYPE="EXPRESSION" CELLCLASS="HEADER1UL" TEXTCLASS="BOLD" colspan="7" >$this->getParameter("users_scope")</COL>
+			</ROW>
+			<ROW>
+				<COL ALIGN="center" TYPE="EXPRESSION" CELLCLASS="HEADER1UL" TEXTCLASS="BOLD" colspan="7" >$this->getParameter("range_date")</COL>
+			</ROW>
+
+			<ROW>
+				<COL CELLCLASS="HEADERFIELDS" >Account Name</COL>
+				<COL CELLCLASS="HEADERFIELDS" >First Name</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Last Name</COL>
+				<COL CELLCLASS="HEADERFIELDS" >City</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Account Assignment</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Account Notes</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Opportunity Assignment</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Opportunity Notes</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Activity Subject</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Upcoming Activity Date</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Opportunity Stage</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Probability</COL>
+			</ROW>
+		</HEADER>	
+		<FOOTER>
+      		</FOOTER>
+	</PAGE>
+	
+	<GROUPS>
+		<GROUP NAME="C1" >
+		<FIELDS>
+			<ROW>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C1</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C2</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C3</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C4</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C5</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C6</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C7</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C8</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C9</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C10</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C11</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C12</COL>
+			</ROW>
+		</FIELDS>
+		</GROUP>
+	</GROUPS>
+</REPORT>

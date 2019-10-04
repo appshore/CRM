@@ -1,0 +1,269 @@
+<?php
+ /***************************************************************************
+ * Appshore                                                                 *
+ * http://www.appshore.com                                                  *
+ * This file written by Brice Michel  bmichel@appshore.com                  *
+ * Copyright (C) 2004-2008 Brice Michel                                     *
+ ***************************************************************************/
+ 
+require_once ( APPSHORE_LIB.SEP.'class.base.php');
+
+class campaigns_base extends lib_base
+{
+
+    function __construct()
+    {
+    	$this->appTable 		= 'campaigns';
+    	$this->appRecordId		= 'campaign_id';    	
+    	$this->appRecordName	= 'subject';    	
+    	$this->appOrderBy		= 'campaign_name';    	
+    	$this->appAscDesc		= 'desc';    	
+    	$this->appName 			= 'campaigns';
+    	$this->appNameSingular	= 'campaign';    	
+    	$this->appLabel 		= 'Campaigns';
+    	$this->appLabelSingular = 'Campaign';    
+    	$this->appXSL 			= 'campaigns.base';
+    	$this->appRole 			= 'campaigns';	
+
+    	// to allow saved searches management from this app
+		if ( checkEdition() )
+			$GLOBALS['appshore']->addNode( $this->appRole, 'savedSearches');
+
+		if ( $GLOBALS['appshore']->rbac->checkPermissionOnFeature($this->appRole, 'export') )
+			$GLOBALS['appshore']->addNode( $this->appRole, 'export');
+
+		parent::__construct();
+	}
+ 
+	function menus()
+	{
+	    $GLOBALS['appshore']->add_appmenu('campaigns', 'Search campaigns', 'campaigns.base.search');   	
+		if ( $GLOBALS['appshore']->rbac->check('campaigns', RBAC_USER_WRITE ) )
+			$GLOBALS['appshore']->add_appmenu('campaigns', 'New campaign', 'campaigns.base.edit');
+		$GLOBALS['appshore']->add_appmenu('campaigns', 'Search lists', 'campaigns.lists_base.search');
+		if ( $GLOBALS['appshore']->rbac->check('campaigns', RBAC_USER_WRITE ) )
+			$GLOBALS['appshore']->add_appmenu('campaigns', 'New list', 'campaigns.lists_base.edit');
+		$GLOBALS['appshore']->add_appmenu('campaigns', 'Search records', 'campaigns.records_base.start');
+		$GLOBALS['appshore']->add_appmenu('campaigns', 'History', 'campaigns.history_base.start');
+#		if( checkEdition() )
+#			$GLOBALS['appshore']->add_appmenu('campaigns', 'Preferences', 'campaigns.preferences_base.start');
+	} 
+	
+    function start()
+    {
+    	
+    	// clean up campaigns_records when lists or records have been also deleted
+        executeSQL( 'delete from campaigns_records where list_id not in (select list_id from campaigns_lists)');
+        executeSQL( 'delete from campaigns_records where table_name = "accounts" and record_id not in (select account_id from accounts)');
+        executeSQL( 'delete from campaigns_records where table_name = "contacts" and record_id not in (select contact_id from contacts)');
+        executeSQL( 'delete from campaigns_records where table_name = "leads" and record_id not in (select lead_id from leads)');
+
+		return parent::start();
+    }	   
+	
+    // init some values when new Entry
+    function newEntry( $args = null, $entry = null)
+    {
+        $entry['type_id'] = 'email';        
+        $entry['user_id'] = $GLOBALS['appshore_data']['current_user']['user_id'];
+        $entry['from_email'] = $GLOBALS['appshore_data']['current_user']['email'];
+        $entry['from_name'] = $GLOBALS['appshore_data']['current_user']['full_name'];        
+        return parent::newEntry( $args, $entry);
+    }
+
+	function search( $args = null)
+    {
+
+    	// to allow tag management from this app
+		if ( $GLOBALS['appshore']->rbac->check('tags', RBAC_RUN_APP ))
+			$GLOBALS['appshore']->addNode( $this->appRole, 'tag');
+
+    	// update the records count for each list
+        executeSQL( 'update campaigns_lists cl set records_count = ( select count(record_id) from campaigns_records cr where cl.list_id = cr.list_id)');
+
+		$result = parent::search( $args);	
+
+    	if( $result[$this->appName])
+			foreach( $result[$this->appName] as $key => $val)
+			{
+				if( $result[$this->appName][$key]['related_list_id'] )
+					$result[$this->appName][$key]['related_list_id'] .= ' ('.$this->recordsCount($val['campaign_id']).')';
+			}
+		
+		return $result;
+	}     
+
+    function view( $args = null)
+    {
+	    $emails_quota_available = $GLOBALS['appshore_data']['my_company']['emails_quota'] - $this->emailsQuotaUsed();
+	    
+	    // in case some users will try to force the email shoot
+	    if( $emails_quota_available <= 0  && $args['key'] == 'Send' )
+	    	unset($args['key']);
+	    	
+	    $records_count = $this->recordsCount($args['campaign_id']);
+
+		switch($args['key'])
+		{
+			case 'Send': // specific case to email campaigns
+				$this->emailShot( $args);
+				// NO break
+			default:	// else we call the parent class
+	    		$result = parent::view( $args); 
+	    		break;
+	    }
+	    
+	    // we do not want messages for these actions
+	    if( in_array( $args['key'], array('Edit','Delete','Duplicate','Print')) )
+	    	return $result;
+	    	
+	    // add a count of records to the name of the list
+	    $result[$this->appNameSingular]['related_list_id'] .= ' ('.$records_count.')';
+	    
+	    //display a message according quota comsuption
+	    if( $emails_quota_available <= 0 )
+	    	messagebox( 'You have no more daily quota of emails available ('.$GLOBALS['appshore_data']['my_company']['emails_quota'].')', ERROR);
+	    else if ( $emails_quota_available < $records_count)
+	    	messagebox( 'The daily quota of emails available ('.$emails_quota_available.
+	    		' of '.$GLOBALS['appshore_data']['my_company']['emails_quota'].
+	    		') is smaller than the count of records in the list ('.$records_count.')', ERROR);
+	    else
+	    {
+	    	messagebox( 'The daily quota of emails available is '.$emails_quota_available.' of '.
+	    		$GLOBALS['appshore_data']['my_company']['emails_quota'], NOTICE);
+	   		$GLOBALS['appshore']->addPlugins( 'ViewButtons');	    		
+	    }
+
+        return $result;
+    }   	
+
+    function emailShot()
+    {
+		$args = new safe_args();
+		$args->set('campaign_id', 	NOTSET,'any');
+		$args->set('key',			NOTSET,'any');
+		$args = $args->get(func_get_args());
+		
+		// get the campaign and list information
+		$campaign = getOneAssocArray('select * from campaigns where campaign_id = "'.$args['campaign_id'].'"');
+		$fields = getManyAssocArrays('select * from campaigns_fields');		
+									
+		// create mailer class and set up message
+		include_once(APPSHORE_LIB.SEP.'lib.emailer.php');		
+		$mail = new emailer();
+        $mail->getEmailerInformation();
+        
+		$mail_from = $mail->cleanAddresses($campaign['from_email']);
+        $mail->Sender = $mail->From = $mail_from[0];
+		$mail->FromName = $mail->cleanName($campaign['from_name']);        
+		      
+		$mail->SMTPKeepAlive = true;	
+		$mail->Mailer = 'sendmail';
+		$mail->SetLanguage( 'en', APPSHORE_INCLUDES.SEP.'phpmailer'.SEP.'language/');
+		$mail->CharSet = 'UTF-8';				
+		
+		$mail->isHTML( $campaign['body_html']?true:false);	
+		
+		// main loop
+		//init the SQl select that will run the main loop
+		$db = executeSQL('SELECT * FROM campaigns_records_view WHERE list_id = "'.$campaign['list_id'].'"');	
+		$nbr = 0;
+		$nbrsent = 0;
+		while( !$db->EOF )
+		{
+			// get the record information
+            $record = $db->GetRowAssoc(false);
+                       
+            if( is_email($record['email']) && $record['email_opt_out'] != 'Y' )
+            {
+				$subject = $campaign['subject'];
+				$body_text = $campaign['body_text'];
+				$body_html = $campaign['body_html'];			
+				
+				foreach( $fields as $key => $val)
+				{
+					$subject = str_replace( '{'.$val['field_label'].'}', $record[$val['field_name']], $subject);
+					$body_text = str_replace( '{'.$val['field_label'].'}', $record[$val['field_name']], $body_text);
+					$body_html = str_replace( '{'.$val['field_label'].'}', $record[$val['field_name']], $body_html);
+				}
+		
+				$mail->Subject = $subject;						
+				$mail->Body = $body_html?$body_html:$body_text;
+				$mail->AltBody = $body_text;
+				$mail->AddAddress($record['email']);
+				$mail->Send(); 
+				$mail->ClearAddresses();
+				$nbrsent++;
+			}
+			
+			$db->MoveNext();
+			$nbr++;
+		}  
+		
+		$mail->Subject = lang('Your email campaign: %(campaign_name)s', array('campaign_name'=>$campaign['campaign_name']));			
+
+		$mail->Body = lang('%(processed)s records processed.', array('processed'=>$nbr)).'<br/><br/>';
+
+		$mail->Body .= lang('%(sent)s emails have been sent successfully.', array('sent'=>$nbrsent)).'<br/><br/>';
+
+		if( $nbrsent < $nbr )
+			$mail->Body .= lang('%(rejected)s records have been rejected due to invalid or opt out email address.', array('rejected'=>($nbr-$nbrsent))).'<br/><br/>';
+
+		$mail->Body .= $campaign['subject'].'<br/><br/>'.$campaign['body_html'];
+		
+		$mail->AddAddress( $GLOBALS['appshore_data']['current_user']['email']);
+		$mail->Send(); 
+		
+		$mail->SmtpClose();				
+		unset( $mail);
+		
+		messagebox( lang('%(processed)s records processed, %(sent)s emails sent, %(rejected)s records rejected', array('processed'=>$nbr,'sent'=>$nbrsent,'rejected'=>($nbr-$nbrsent))), NOTICE);
+
+		$args['status'] = 'SE';
+		updateRow( 'campaigns', 'campaign_id', $args, false);	
+
+		$args['list_id'] = $campaign['list_id'];
+		$args['records'] = $nbr;
+		$args['rejected'] = $nbr-$nbrsent;
+		$args['run'] = gmdate('Y-m-d H:i:s');			
+		insertRow( 'campaigns_history', 'campaign_id', $args, false);	
+		
+        return $result;
+    }   
+    
+    // number of emails sent Today
+    function emailsQuotaUsed()
+    {
+			// get the record information
+        $quota = getOneAssocArray( 'select sum(records) as emails_sent from campaigns_history where date(created) = curdate()');
+
+        return $quota['emails_sent'];
+    } 
+    
+    // number of records in a list    
+    function recordsCount()
+    {
+		$args = new safe_args();
+		$args->set('campaign_id', 	NOTSET,'any');
+		$args = $args->get(func_get_args());
+
+			// get the record information
+        $records = getOneAssocArray( 'select records_count from campaigns_lists cl, campaigns ca 
+        	where campaign_id = "'.$args['campaign_id'].'" and ca.list_id = cl.list_id');
+
+        return $records['records_count'];
+    }      
+    
+    // retrieve date for schedules
+    function getScheduleStartDate( $args = null)
+    {
+        return $GLOBALS['appshore']->local->localToDate($args['due_date']);
+    }
+    
+    // retrieve time for schedules
+    function getScheduleStartTime( $args = null)
+    {
+        return 'NULL';
+    }              
+    
+}

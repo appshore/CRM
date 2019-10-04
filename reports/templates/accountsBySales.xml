@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE REPORT SYSTEM "PHPReport.dtd">
+<REPORT MARGINWIDTH="5" MARGINHEIGHT="5">
+
+	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<CSS>reports/css/reportS1.css</CSS>	
+	<SQL>SELECT user_name C1, account_name C2, E.status_name C3,D.industry_name C4,F.rating_name C5,revenue C6 FROM  accounts A, users B, industries D, statuses E, ratings F WHERE A.user_id = B.user_id AND A.industry_id = D.industry_id AND A.status_id=E.status_id   AND A.rating_id = F.rating_id ORDER  BY user_name ASC</SQL>
+	<INTERFACE>mysql</INTERFACE>
+	<CONNECTION>localhost</CONNECTION>
+	<DATABASE>demo</DATABASE>
+	<NO_DATA_MSG>No data was found, check your query</NO_DATA_MSG>
+	
+	<TITLE>Accounts</TITLE>
+   	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<DOCUMENT>
+		<HEADER>
+			<ROW>
+				<COL COLSPAN="1" >
+					<XHTML>
+						<a><IMG SRC="api/images/print.gif" onclick="javascript:this.src='api/images/invisible.gif';print();"/></a>
+					</XHTML>
+				</COL>
+			</ROW>
+		</HEADER>
+	</DOCUMENT>
+	<PAGE CELLSPACING="0" CELLPADDING="0" SIZE="1000">
+		<HEADER>
+			<ROW>
+				<COL ALIGN="center" TYPE="EXPRESSION" CELLCLASS="HEADER1UL" TEXTCLASS="BOLD" colspan="6" >$this->getParameter("users_scope")</COL>
+			</ROW>
+			<ROW>
+				<COL ALIGN="center" TYPE="EXPRESSION" CELLCLASS="HEADER1UL" TEXTCLASS="BOLD" colspan="6" >$this->getParameter("range_date")</COL>
+			</ROW>
+			<ROW>
+				<COL CELLCLASS="HEADERFIELDS">Owner</COL>
+				<COL CELLCLASS="HEADERFIELDS">Account</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Type</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Industry</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Rating</COL>
+				<COL CELLCLASS="HEADERFIELDS" >Revenue</COL>
+			</ROW>
+		</HEADER>	
+		<FOOTER>
+      		</FOOTER>
+	</PAGE>
+	
+	<GROUPS>
+		<GROUP NAME="G" EXPRESSION="QU">
+		<FIELDS>
+			<ROW>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD">C1</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD">C2</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD">C3</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C4</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C5</COL>
+				<COL TYPE="FIELD" CELLCLASS="HEADERFIELDS" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >C6</COL>
+			</ROW>
+		</FIELDS>
+
+		</GROUP>
+		
+	</GROUPS>
+</REPORT>

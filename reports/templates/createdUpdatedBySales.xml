@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE REPORT SYSTEM "PHPReport.dtd">
+<REPORT MARGINWIDTH="5" MARGINHEIGHT="5">
+	
+	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<CSS>reports/css/reportS1.css</CSS>	
+	<SQL>SELECT C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14, C15,C16
+	FROM sum_users_activity A
+		WHERE 1=1
+	</SQL>
+	<INTERFACE>mysql</INTERFACE>
+	<CONNECTION>localhost</CONNECTION>
+	<DATABASE>bpo3</DATABASE>
+	<NO_DATA_MSG>No data was found, check your query</NO_DATA_MSG>
+	
+	<TITLE>Agent Ranking Report</TITLE>
+	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<DOCUMENT>
+		<HEADER>
+			<ROW>
+				<COL COLSPAN="1" >
+					<XHTML>
+						<a><IMG SRC="api/images/print.gif" onclick="javascript:this.src='api/images/invisible.gif';print();"/></a>
+					</XHTML>
+				</COL>
+			</ROW>
+		</HEADER>
+	</DOCUMENT>
+	<PAGE CELLSPACING="0" CELLPADDING="0" WIDTH="630"  SIZE="1000" ALIGN="center">
+	</PAGE>
+	
+	<GROUPS>
+		<GROUP NAME="C1">
+			<HEADER>
+				<ROW>
+					<COL ALIGN="center" TYPE="EXPRESSION" CELLCLASS="HEADER1" TEXTCLASS="BOLD" colspan="17" >$this->getParameter("report_name")</COL>
+				</ROW>
+				<ROW>
+					<COL ALIGN="center" TYPE="EXPRESSION" CELLCLASS="HEADER1UL" TEXTCLASS="BOLD" colspan="17" >$this->getParameter("range_date")</COL>
+				</ROW>
+			</HEADER>
+			<FOOTER>
+				<ROW>
+					<COL ALIGN="center" CELLCLASS="HEADER5" width="20%" ></COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" TEXTCLASS="BOLD">$this->getSum("C1")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C2")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C3")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C4")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C5")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C6")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C7")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C8")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C9")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C10")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C11")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C12")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C13")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" >$this->getSum("C14")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" TEXTCLASS="BOLD">$this->getSum("C15")</COL>
+					<COL TYPE="EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="10%" ALIGN="center" TEXTCLASS="BOLD">$this->getSum("C16")</COL>
+				</ROW>
+      		</FOOTER>
+			<GROUP NAME="main" >
+				<HEADER>
+					<ROW>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER5" width="20%" >Sales Rep.</COL>
+						
+						<COL ALIGN="LEFT" CELLCLASS="HEADER5" width="10%" colspan="2" align="center">accounts</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER5" width="10%" colspan="2" align="center">Activities</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER5" width="10%" colspan="2" align="center">Campaigns</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER5" width="10%" colspan="2" align="center">Cases</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER5" width="10%" colspan="2" align="center">Contacts</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER5" width="10%" colspan="2" align="center">Documents</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER5" width="10%" colspan="2" align="center">Leads</COL>
+						<COL ALIGN="CENTER" CELLCLASS="HEADER5" width="10%" colspan="2" >SUM</COL>
+					</ROW>
+					<ROW>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="20%" >Created or Updated</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">C</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">U</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">C</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">U</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">C</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">U</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">C</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">U</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">C</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">U</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">C</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">U</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">C</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">U</COL>
+						
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">C</COL>
+						<COL ALIGN="LEFT" CELLCLASS="HEADER4" width="5%" align="center">U</COL>
+					</ROW>
+					
+				</HEADER>
+				<FIELDS>
+					<ROW>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="20%" >$this->getValue("C0")</COL>
+						
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C1")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C2")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C3")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C4")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C5")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C6")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C7")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C8")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C9")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C10")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C11")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C12")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C13")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C14")</COL>
+						
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C15")</COL>
+						<COL TYPE="RAW_EXPRESSION"  CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD"  width="5%" align="center">$this->getValue("C16")</COL>
+						
+					</ROW>
+				</FIELDS>
+			</GROUP>
+		</GROUP>
+	</GROUPS>
+</REPORT>

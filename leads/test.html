@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><head><title></title>
+<BODY>
+<form name="appshore_leads" method="post" action="http://v22.appshore.net/leads/capture.php">
+<input name="emailAlert" type="hidden" value="yes"/>
+<input name="emailTo" type="hidden" value=""/>
+<input name="leadFrom" type="hidden" value=""/>
+<input name="urlSuccess" type="hidden" value=""/>
+<input name="urlError" type="hidden" value=""/>
+<table>	
+	<tr>		
+		<td width="30%" align="right">Salutation:</td>
+		<td align="left"><input size="10" name="salutation" type="text"/></td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">First Name:</td>
+		<td align="left"><input size="25" name="first_names" type="text"/></td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Last Name:</td>
+		<td align="left"><input size="30" name="last_name" type="text"/></td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Company:</td>
+		<td align="left"><input size="35" name="account_name" type="text"/></td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Phone:</td>
+		<td align="left"><input size="20" name="phone" vtype="text"/></td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Do Not Call:</td>
+		<td align="left"><input name="do_not_call" type="checkbox"/></td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Email:</td>
+		<td align="left"><input size="30" name="email" type="text"/></td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Email Opt Out:</td>
+		<td align="left"><input name="email_opt_out" type="checkbox"/></td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Mobile:</td>
+		<td align="left"><input size="20" name="mobile" type="text"/></td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Fax:</td>
+		<td align="left"><input size="20" name="fax" type="text"/></td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Source:</td>
+		<td align="left">
+			<select name="source_id">
+				<option></option>
+				<option value="2">Advertisement</option>
+				<option value="11">Cold calling</option>
+				<option value="3">Direct Mail</option>
+				<option value="1">Other</option>
+				<option value="4">Radio</option>
+				<option value="5">Search Engine</option>
+				<option value="6">Seminar</option>
+				<option value="7">Telemarketing</option>
+				<option value="8">Trade Show</option>
+				<option value="9">Web Site</option>
+				<option value="10">Word of Mouth</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Web Site:</td>
+		<td align="left">http://<input size="25" name="url" type="text"/></td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Rating:</td>
+		<td align="left">
+			<select name="rating_id">
+				<option></option>
+				<option value="1">Unknown</option>
+				<option value="2">Avoid</option>
+				<option value="3">Poor</option>
+				<option value="4">Fair</option>
+				<option value="5">Good</option>
+				<option value="6">Excellent</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td width="30%" align="right">Industry:</td>
+		<td align="left">
+			<select name="industry_id">
+				<option></option>
+
+				<option value="2">Advertising</option>
+
+				<option value="3">Architecture</option>
+
+				<option value="4">Chemicals</option>
+
+				<option value="5">Communications</option>
+
+				<option value="6">Computers</option>
+
+				<option value="7">Construction</option>
+
+				<option value="8">Consulting</option>
+
+				<option value="9">Distribution</option>
+
+				<option value="10">Education</option>
+
+				<option value="11">Finance</option>
+
+				<option value="12">Government</option>
+
+				<option value="13">Healthcare</option>
+
+				<option value="14">Insurance</option>
+
+				<option value="15">Legal</option>
+
+				<option value="16">Manufacturing</option>
+
+				<option value="17">Non-Profit</option>
+
+				<option value="1">Other</option>
+
+				<option value="18">Real Estate</option>
+
+				<option value="19">Restaurant</option>
+
+				<option value="20">Retail</option>
+
+			</select>
+
+		</td>
+
+	</tr>
+
+	<tr>
+
+		<td width="30%" align="right">Type:</td>
+
+		<td align="left">
+
+			<select name="status_id">
+
+				<option></option>
+
+				<option value="1">Lead</option>
+
+				<option value="2">Prospect</option>
+
+				<option value="3">Customer</option>
+
+				<option value="4">Closed</option>
+
+				<option value="5">Partner</option>
+
+				<option value="6">Supplier</option>
+
+				<option value="7">Competitor</option>
+
+			</select>
+
+		</td>
+
+	</tr>
+
+	<tr>
+
+		<td width="30%" align="right">Employees:</td>
+
+		<td align="left"><input size="7" name="employees" type="text"/></td>
+
+	</tr>
+
+	<tr>
+
+		<td width="30%" align="right">Revenue:</td>
+
+		<td align="left"><input size="15" name="revenue" type="text"/></td>
+
+	</tr>
+
+	<tr>
+
+		<td width="30%" align="right">Primary address:</td>
+
+		<td align="left"><textarea class="formtextarea" rows="2" cols="25" name="address_1"></textarea></td>
+
+	</tr>
+
+	<tr>
+
+		<td width="30%" align="right">City:</td>
+
+		<td align="left"><input size="25" name="city_1" type="text"/></td>
+
+	</tr>
+
+	<tr>
+
+		<td width="30%" align="right">State:</td>
+
+		<td align="left"><input size="25" name="state_1" type="text"/></td>
+
+	</tr>
+
+	<tr>
+
+		<td width="30%" align="right">Zip code:</td>
+
+		<td align="left"><input size="10" name="zipcode_1" type="text"/></td>
+
+	</tr>
+
+	<tr>
+
+		<td width="30%" align="right">Country:</td>
+
+		<td align="left"><input size="25" name="country_1" type="text"/></td>
+
+	</tr>
+
+	<tr>
+
+		<td width="30%" align="right">Note:</td>
+
+		<td align="left"><textarea class="formtextarea" cols="75" rows="3" name="note"></textarea></td>
+
+	</tr>
+
+	<tr>
+
+		<td width="30%" align="right"></td>
+
+		<td align="left"><input name="submit" value="Submit" type="submit"/></td>
+
+	</tr>
+
+</table>
+
+</form>	
+
+
+	
+		
+</BODY>
+</HTML>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE REPORT SYSTEM "PHPReport.dtd">
+<REPORT MARGINWIDTH="5" MARGINHEIGHT="5">
+
+	<TITLE>Call reports by departments and salespersons</TITLE>
+	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<CSS>reports/css/reportS1.css</CSS>
+	<SQL>
+	SELECT E.department_name department, B.user_name salesperson, A.subject call_report_id, C.type_name type_name, A.custom_reportdate call_date, 
+		D.priority_name priority_name, A.note note, A.updated updated, A.created created FROM activities A
+	LEFT OUTER JOIN users B ON A.user_id = B.user_id
+	LEFT OUTER JOIN activities_types C ON A.type_id = C.type_id
+	LEFT OUTER JOIN activities_priorities D ON A.priority_id = D.priority_id
+	LEFT OUTER JOIN departments E ON B.department_id = E.department_id
+	</SQL>
+	<INTERFACE>mysql</INTERFACE>
+	<CONNECTION>localhost</CONNECTION>
+	<DATABASE>demo</DATABASE>
+	<NO_DATA_MSG>No data was found, check your query</NO_DATA_MSG>
+
+	<DOCUMENT>
+		<HEADER>
+			<ROW>
+				<COL COLSPAN="6" >
+					<XHTML>
+						<a><IMG SRC="api/images/print.gif" onclick="javascript:this.src='api/images/invisible.gif';print();"/></a>
+					</XHTML>
+				</COL>
+			</ROW>
+			<ROW>
+				<COL ALIGN="Right" TEXTCLASS="BOLD" CELLCLASS="HEADER2"  COLSPAN="3" >Report: </COL>
+				<COL ALIGN="left" TEXTCLASS="BOLD" CELLCLASS="HEADER2" TYPE="EXPRESSION" COLSPAN="3" >$this->getParameter('report_name')</COL>
+			</ROW>
+			<ROW>
+				<COL ALIGN="Right" TEXTCLASS="BOLD" CELLCLASS="HEADER2"  COLSPAN="3" >Date: </COL>
+				<COL ALIGN="left" TEXTCLASS="BOLD" CELLCLASS="HEADER2" TYPE="EXPRESSION" COLSPAN="3" >date('l, j F Y', strtotime('Today'))</COL>
+			</ROW>
+			<ROW>
+				<COL ALIGN="Right" TEXTCLASS="BOLD" CELLCLASS="HEADER2"  COLSPAN="3" >Period of results: </COL>
+				<COL ALIGN="left" TEXTCLASS="BOLD" CELLCLASS="HEADER2" TYPE="EXPRESSION" COLSPAN="3" >$this->getParameter('range_date')</COL>
+			</ROW>
+		</HEADER>
+	</DOCUMENT>
+
+	<PAGE size="1000">
+	</PAGE>
+	
+	<GROUPS>
+		<GROUP NAME="GroupDepartment" EXPRESSION="department">
+			<HEADER>
+				<ROW>
+					<COL CELLCLASS="GROUP_LAYER" TEXTCLASS="BOLD" >Department:</COL>
+					<COL CELLCLASS="GROUP_LAYER" TEXTCLASS="BOLD" TYPE="EXPRESSION" COLSPAN="5">$this->getValue("department")</COL>
+				</ROW>
+			</HEADER>
+			<GROUP NAME="GroupSalesperson" EXPRESSION="salesperson">
+				<FOOTER>
+					<ROW>
+						<COL ALIGN="LEFT" CELLCLASS="GROUP_LAYER" TEXTCLASS="BOLD" TYPE="EXPRESSION" COLSPAN="2">$this->getValue("salesperson")</COL>
+						<COL ALIGN="LEFT" CELLCLASS="GROUP_LAYER" TEXTCLASS="BOLD" >Total All Activities</COL>
+						<COL ALIGN="LEFT" CELLCLASS="GROUP_LAYER" TEXTCLASS="BOLD" TYPE="EXPRESSION" COLSPAN="3">$this->getRowCount()</COL>
+					</ROW>
+				</FOOTER>
+				<GROUP NAME="GroupType" EXPRESSION="type_name">
+					<FOOTER>
+						<ROW>
+							<COL ALIGN="LEFT" CELLCLASS="GROUP_LAYER" TEXTCLASS="BOLD" TYPE="EXPRESSION" COLSPAN="2">$this->getValue("salesperson")</COL>
+							<COL ALIGN="LEFT" CELLCLASS="GROUP_LAYER" TEXTCLASS="BOLD" TYPE="EXPRESSION" >"Total ".$this->getValue("type_name")</COL>
+							<COL ALIGN="LEFT" CELLCLASS="GROUP_LAYER" TEXTCLASS="BOLD" TYPE="EXPRESSION" COLSPAN="3">$this->getRowCount()</COL>
+						</ROW>
+					</FOOTER>
+				</GROUP>
+			</GROUP>
+		</GROUP>
+	</GROUPS>
+</REPORT>

@@ -1,0 +1,101 @@
+
+base.auth.login
+
+	mandatory parameters:
+		op=base.auth.login
+		user_name=
+		user_password=
+
+	optional parameters:
+		sid=A_PREDEFINED_TOKEN_ID	
+		
+	return if successful:
+		<API>
+			<status>ok</status>
+			<sid>TOKEN_IDENTIFIER</sid>
+		</API>
+
+	return if error:
+		<API>
+			<status>error</status>
+			<error>
+				<code>ERROR_AUTH_INVALID</code>
+				<message>Invalid authentification</message>
+			</error>
+		</API>
+
+	curl usage:
+		curl "http://myaccount.appshore.net/xml.php?&user_name=admin&user_password=admin&op=base.auth.login"
+
+
+base.auth.logout
+
+	mandatory parameters:
+		op=base.auth.logout
+		sid=TOKEN_IDENTIFIER	
+
+	return:
+		<API>
+			<status>ok</status>
+		</API>
+
+	curl usage:
+		curl "http://v22.lesscrm.org/xml.php?&sid=TOKEN_IDENTIFIER&op=base.auth.logout"
+
+
+appName.schema
+
+	mandatory parameters:
+		op=appName.schema
+		sid=TOKEN_IDENTIFIER	
+
+	return:
+		<API>
+			<status>ok</status>
+			<sid>TOKEN-IDENTIFIER</sid>
+		</API>
+
+	curl usage:
+		curl "http://v22.lesscrm.org/xml.php?&sid=TOKEN_IDENTIFIER&op=activities.schema"
+
+appName.search
+
+	mandatory parameters:
+		op=appName.search
+		sid=TOKEN_IDENTIFIER	
+
+	optional parameters:
+		sid=A_TOKEN_ID
+				
+	return:
+		<API>
+			<status>ok</status>
+			<sid>TOKEN-IDENTIFIER</sid>
+		</API>
+
+	curl usage:
+		curl "http://v22.lesscrm.org/xml.php?&sid=TOKEN_IDENTIFIER&op=leads.search"
+		curl "http://v22.lesscrm.org/xml.php?&sid=TOKEN_IDENTIFIER&op=accounts.search&state=ca&industry_id=media"
+		curl "http://v22.lesscrm.org/xml.php?&sid=TOKEN_IDENTIFIER&op=contacts.search&first_names=%THOM%"
+
+
+appName.create
+
+	mandatory parameters:
+		op=appName.search
+		sid=TOKEN_IDENTIFIER	
+
+	optional parameters:
+		sid=A_TOKEN_ID
+				
+	return:
+		<API>
+			<status>ok</status>
+			<sid>TOKEN-IDENTIFIER</sid>
+		</API>
+
+	curl usage:
+		curl "http://v22.lesscrm.org/xml.php?&sid=TOKEN_IDENTIFIER&op=leads.create&account_name=Empire Consulting"
+		curl "http://v22.lesscrm.org/xml.php?&sid=TOKEN_IDENTIFIER&op=accounts.search&state=ca&industry_id=media"
+		curl "http://v22.lesscrm.org/xml.php?&sid=TOKEN_IDENTIFIER&op=contacts.search&first_names=%THOM%"
+

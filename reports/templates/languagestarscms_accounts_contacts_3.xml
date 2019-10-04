@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE REPORT SYSTEM "PHPReport.dtd">
+<REPORT MARGINWIDTH="5" MARGINHEIGHT="5">
+
+	<TITLE>Language Stars CMS Family and Children</TITLE>
+	<BACKGROUND_COLOR>#FFFFFF</BACKGROUND_COLOR>
+	<CSS>reports/css/reportS1.css</CSS>
+	<SQL></SQL>
+	<INTERFACE>mysql</INTERFACE>
+	<CONNECTION>localhost</CONNECTION>
+	<DATABASE>demo</DATABASE>
+	<NO_DATA_MSG>No data was found, check your query</NO_DATA_MSG>
+	<DOCUMENT>
+		<HEADER>
+			<ROW>
+				<COL COLSPAN="12" >
+					<XHTML>
+						<a><IMG SRC="api/images/print.gif" onclick="javascript:this.src='api/images/invisible.gif';print();"/></a>
+					</XHTML>
+				</COL>
+			</ROW>
+			<ROW>
+				<COL ALIGN="Right" TEXTCLASS="BOLD" CELLCLASS="HEADER2"  COLSPAN="5" >Report: </COL>
+				<COL ALIGN="left" TEXTCLASS="BOLD" CELLCLASS="HEADER2" TYPE="EXPRESSION" COLSPAN="10" >$this->getParameter('report_name')</COL>
+			</ROW>
+			<ROW>
+				<COL ALIGN="Right" TEXTCLASS="BOLD" CELLCLASS="HEADER2"  COLSPAN="5" >Report date: </COL>
+				<COL ALIGN="left" TEXTCLASS="BOLD" CELLCLASS="HEADER2" TYPE="EXPRESSION" COLSPAN="10" >date('l, j F Y', strtotime('Today'))</COL>
+			</ROW>
+			<ROW>
+				<COL ALIGN="Right" TEXTCLASS="BOLD" CELLCLASS="HEADER2"  COLSPAN="5" >Original contact date: </COL>
+				<COL ALIGN="left" TEXTCLASS="BOLD" CELLCLASS="HEADER2" TYPE="EXPRESSION" COLSPAN="10" >$this->getParameter('range_date')</COL>
+			</ROW>
+			<ROW>
+				<COL CELLCLASS="HEADERFIELDS">Region</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Center DC</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Children full name</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Age</COL>		
+				<COL CELLCLASS="HEADERFIELDS">D.O.B</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Original enrollment date</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Spanish</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Mandarin</COL>		
+				<COL CELLCLASS="HEADERFIELDS">French</COL>		
+				<COL CELLCLASS="HEADERFIELDS">German</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Italian</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Marketing category</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Initial contact</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Marketing detail</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Original contact date</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Recent contact date</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Family</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Email</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Phone</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Address</COL>		
+				<COL CELLCLASS="HEADERFIELDS">City</COL>		
+				<COL CELLCLASS="HEADERFIELDS">State</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Zipcode</COL>		
+				<COL CELLCLASS="HEADERFIELDS">Status</COL>		
+			</ROW>
+		</HEADER>
+	</DOCUMENT>
+	<PAGE SIZE="1000">		
+	</PAGE>
+	<GROUPS>
+		<GROUP NAME="maingroup">
+			<FIELDS>
+				<ROW>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >region</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >center</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >full_name</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_age</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >birthdate</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_original_enrollment_date</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_spanish</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_mandarin</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_french</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_german</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_italian</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_marketing_category</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_initial_contact</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_marketing_detail</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_original_contact_date</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >custom_recent_contact_date</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >account_name</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >email</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >phone</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >address_billing</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >city_billing</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >state_billing</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >zipcode_billing</COL>
+					<COL TYPE="FIELD" CELLCLASSEVEN="EVEN" CELLCLASSODD="ODD" >status</COL>
+				</ROW>
+			</FIELDS>
+		</GROUP>
+	</GROUPS>
+</REPORT>
