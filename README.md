@@ -1,5 +1,11 @@
 # AppShore
 
+This CRM software was designed in 2004 and commercialy ran online until 2019 with nearly no modification. 
+
+After a 10 months wind down period to ease the migration of remaining customers, the CRM service was shutdown definitively April 30, 2020.
+
+This software source code is provided as is without warranty nor service. 
+
 ## Stack
 
 - PHP 7
